@@ -1,8 +1,10 @@
 import os
+import uuid
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 from supabase import create_client, Client
 from sophons.utils.logger import logger
+
 
 load_dotenv()
 
@@ -11,7 +13,6 @@ SUPABASE_ACCESS_KEY = os.environ.get("SUPABASE_ACCESS_KEY")
 
 
 def add_row(
-    user_id,
     posted_at,
     single_line_summary,
     full_summary,
@@ -21,7 +22,7 @@ def add_row(
     key = SUPABASE_ACCESS_KEY
     supabase = create_client(url, key)
     row = {
-        "id": user_id,
+        "id": str(uuid.uuid4()),
         "prcoessed_at": datetime.now(timezone.utc).isoformat(),
         "posted_at": posted_at,
         "single_line": single_line_summary,
