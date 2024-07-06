@@ -55,13 +55,43 @@ def get_long_summary(blog_text):
             summarized_text = model.generate(chat_tempalate)
 
 def get_long_summary_video(blog_text):
-    user_message = (
-        """Generate a 500 word summary of the content given below by including all important details."""
+    user_message1 = (
+        """Generate a 100 word summary of the content given below by including all important details."""
+        + blog_text
+    )
+    user_message2 = (
+        """From the content given below, generate a document of key take-aways of the content. 'Key Take-aways' should be header 1. All the take-aways should be under it as Header 2 and They should all be explained in around 100 words each.
+            For example:
+            **KEY TAKE-AWAYS**
+
+            insert Key Take-away 1
+            Explain in 100 words.
+
+            insert Key Take-away 2
+            Explain in 100 words.
+
+            insert Key Take-away 3
+            Explain in 100 words.
+
+            insert Key Take-away 4
+            Explain in 100 words.
+
+            insert Key Take-away 5
+            Explain in 100 words.
+
+            insert Key Take-away 6
+            Explain in 100 words.
+
+            **CONCLUSION**
+            Give a 200 word conclusion.
+            """
         + blog_text
     )
     logger.info("Generating long summary...")
-    chat_tempalate.append({"role": "user", "content": user_message})
+    chat_tempalate.append({"role": "user", "content": user_message1})
     summarized_text = model.generate(chat_tempalate)
+    chat_tempalate.append({"role": "user", "content": user_message2})
+    summarized_text += "\n\n"+model.generate(chat_tempalate)
     logger.info(f"Long Summary:\n {summarized_text}")
     return summarized_text
 
@@ -117,3 +147,4 @@ def get_summary_video(blog_text, length):
         long_summary = get_long_summary_video(blog_text)
     short_summary = get_short_summary(blog_text)
     return {"long_summary": long_summary, "short_summary": short_summary} 
+
