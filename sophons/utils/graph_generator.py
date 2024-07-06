@@ -4,7 +4,6 @@ import os
 import json
 import re
 import base64
-from IPython.display import Image, display
 import requests
 
 
