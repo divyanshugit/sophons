@@ -54,6 +54,17 @@ def get_long_summary(blog_text):
         except:
             summarized_text = model.generate(chat_tempalate)
 
+def get_long_summary_video(blog_text):
+    user_message = (
+        """Generate a 500 word summary of the content given below by including all important details."""
+        + blog_text
+    )
+    logger.info("Generating long summary...")
+    chat_tempalate.append({"role": "user", "content": user_message})
+    summarized_text = model.generate(chat_tempalate)
+    logger.info(f"Long Summary:\n {summarized_text}")
+    return summarized_text
+
 
 def get_short_summary(blog_text):
     user_message = (
@@ -97,3 +108,12 @@ def get_summary(blog_text):
     long_summary = get_long_summary(blog_text)
     short_summary = get_short_summary(blog_text)
     return {"long_summary": long_summary, "short_summary": short_summary}
+
+def get_summary_video(blog_text, length):
+    logger.info("Getting summary...")
+    if length<1200:
+        long_summary = get_long_summary(blog_text)
+    else:
+        long_summary = get_long_summary_video(blog_text)
+    short_summary = get_short_summary(blog_text)
+    return {"long_summary": long_summary, "short_summary": short_summary} 

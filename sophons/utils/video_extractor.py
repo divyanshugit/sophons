@@ -83,7 +83,11 @@ def get_transcript(video_url, language="English"):
         logger.error(f"We don't have support for {language}: {e}")
 
     logger.info(f"Getting transcript for video: {video_url}")
-    video_id = video_url.split("=")[1]
+    if 'youtube.com' in video_url:
+        video_id = video_url.split("=")[1]
+    else:
+        match = re.search(r'\/([^\/\?]+)\?', video_url)
+        video_id = match.group(1)
     params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_id}
     url = "https://www.youtube.com/oembed"
     query_string = urllib.parse.urlencode(params)
@@ -98,4 +102,5 @@ def get_transcript(video_url, language="English"):
     logger.info(f"Extracting transcript for video: {title}...")
     transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=[lang_id])
     text = " ".join([t["text"] for t in transcript])
-    return title, thumbnail, text
+    duration = transcript[-1]["start"] + transcript[-1]["duration"]
+    return title, thumbnail, text, duration
