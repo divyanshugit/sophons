@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "sophons"
+version = "0.0.1"
+description = "Sophons is an innovative AI-driven project designed to revolutionize the way we consume and manage information."
+authors = ["Divyanshu Kumar <kumardivyanshu4485@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+qdrant-client = "^1.10.0"
+openai = "^1.35.10"
+llama-index = "^0.10.52"
+composio-core = "^0.3.16"
+python-dotenv = "^1.0.1"
+loguru = "^0.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

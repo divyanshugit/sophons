@@ -1,0 +1,5 @@
+llama-index-vector-stores-qdrant==0.2.11
+llama-index-embeddings-cohere==0.1.9
+llama-index-llms-cohere==0.2.0
+supabase==2.5.1
+cohere==5.5.8
