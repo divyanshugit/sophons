@@ -1,7 +1,5 @@
-from langchain_community.document_loaders import WebBaseLoader
+from llama_index.readers.web import SimpleWebPageReader
 
 def get_blog(url):
-  loader = WebBaseLoader(url)
-  documents = loader.load()
-
-  return documents
+  documents = SimpleWebPageReader(html_to_text=True).load_data([url])
+  return documents[0].text
