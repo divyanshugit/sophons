@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
-from sophons.utils.models import GroqAPIModel, TogetherAPIModel
+from sophons.utils.models import GroqAPIModel, TogetherAPIModel, OpenAIModel
 from sophons.utils.logger import logger
 
 load_dotenv()
@@ -54,6 +54,7 @@ def get_long_summary(blog_text):
         except:
             summarized_text = model.generate(chat_tempalate)
 
+
 def get_long_summary_video(blog_text):
     user_message1 = (
         """Generate a 100 word summary of the content given below by including all important details."""
@@ -91,7 +92,7 @@ def get_long_summary_video(blog_text):
     chat_tempalate.append({"role": "user", "content": user_message1})
     summarized_text = model.generate(chat_tempalate)
     chat_tempalate.append({"role": "user", "content": user_message2})
-    summarized_text += "\n\n"+model.generate(chat_tempalate)
+    summarized_text += "\n\n" + model.generate(chat_tempalate)
     logger.info(f"Long Summary:\n {summarized_text}")
     return summarized_text
 
@@ -133,18 +134,46 @@ def get_short_summary(blog_text):
             summarized_text = model.generate(chat_tempalate)
 
 
+def get_categories(blog_text):
+    labels = [
+        "LLM Security",
+        "Training or Alignment",
+        "AI Policies",
+        "ML Frameworks",
+        "Synthetic Data Generation",
+        "Others",
+    ]
+    user_message = (
+        f"""You are a highly intelligent and accurate Multiclass Classification system. You take Passage as input and classify the following appropriate Categories. If you cannot classify the Passage into any of the given Categories, classify as `Others`. The Categories are as follows:
+        {labels}
+        """
+        + blog_text
+    )
+    logger.info("Getting categories...")
+    system_prompt = {
+        "role": "system",
+        "content": "You are a helpful assistant. Whose job is to perform the multi class classification and return output as list of strings.",
+    }
+    chat_tempalate = [system_prompt]
+    chat_tempalate.append({"role": "user", "content": user_message})
+    # model = OpenAIModel("gpt-4o", os.environ.get("OPENAI_API_KEY"))
+    categorized_text = model.generate(chat_tempalate)
+    logger.info(f"Categories:\n {categorized_text}")
+    return categorized_text
+
+
 def get_summary(blog_text):
     logger.info("Getting summary...")
     long_summary = get_long_summary(blog_text)
     short_summary = get_short_summary(blog_text)
     return {"long_summary": long_summary, "short_summary": short_summary}
 
+
 def get_summary_video(blog_text, length):
     logger.info("Getting summary...")
-    if length<1200:
+    if length < 1200:
         long_summary = get_long_summary(blog_text)
     else:
         long_summary = get_long_summary_video(blog_text)
     short_summary = get_short_summary(blog_text)
-    return {"long_summary": long_summary, "short_summary": short_summary} 
-
+    return {"long_summary": long_summary, "short_summary": short_summary}

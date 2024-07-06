@@ -3,8 +3,26 @@ from typing import List, Dict
 import os
 import urllib3
 
+from openai import OpenAI
 from together import Together
 from sophons.utils.logger import logger
+
+
+class OpenAIModel:
+    API_TIMEOUT = 100
+    API_MAX_RETRY = 3
+    API_RETRY_SLEEP = 5
+
+    def __init__(self, model_name, api_key) -> None:
+        self.model_name = model_name
+        self.api_key = api_key
+        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+    def generate(self, prompt: str):
+        response = self.client.chat.completions.create(
+            model=self.model_name, messages=prompt
+        )
+        return response.choices[0].message.content
 
 
 class TogetherAPIModel:
@@ -18,17 +36,6 @@ class TogetherAPIModel:
         self.client = Together(api_key=os.environ.get("TOGETHER_API_KEY"))
 
     def generate(self, prompt: str):
-        # system_prompt = {
-        #     "role": "system",
-        #     "content": "You are a helpful assistant. You reply with concise and day to day used language.",
-        # }
-
-        # chat_tempalate = [system_prompt]
-
-        # print(prompt)
-        # print(chat_tempalate)
-        # message = chat_tempalate.append({"role": "user", "content": prompt})
-        # print(message)
         response = self.client.chat.completions.create(
             model=self.model_name,
             messages=prompt,
