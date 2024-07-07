@@ -1,26 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-import './style.css'
-import Desktop6 from './views/desktop6'
-import NotFound from './views/not-found'
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-const App = () => {
-  return (
-    <Router>
-      <Switch>
-        <Route component={Desktop6} exact path="/" />
-        <Route component={NotFound} path="**" />
-        <Redirect to="**" />
-      </Switch>
-    </Router>
-  )
-}
-
-ReactDOM.render(<App />, document.getElementById('app'))
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();

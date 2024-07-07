@@ -1,0 +1,51 @@
+.BlogPage{
+    padding:10px 10px 10px 10px;
+    background-color:#F5F5FD;
+    display:flex;
+}
+.BlogPage-right{
+    margin-top:30px;
+}
+.BlogPage-right-top-time{
+    color: #1A1A1A;
+    font-family: Manrope;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.BlogPage-right-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+.BlogPage-right-bottom-top{
+    display:flex;
+    align-items:center;
+    margin-bottom:30px;
+}
+.BlogPage-right-bottom{
+    background-color:#FFF;
+    border-radius:20px;
+    padding:20px;
+}
+.author-image-text{
+    color: #1A1A1A;
+    font-family: Manrope;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.BlogPage-right{
+    width:20%;
+}
+.BlogPage-right-bottom-top-bottom{
+    color: #696969;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
