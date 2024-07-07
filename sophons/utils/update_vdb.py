@@ -49,7 +49,7 @@ def update_vdb(data: str, topic: str):
     document = Document(
         text=data,
         metadata={
-            "topic": "synthetic-data",
+            "topic": topic,
         },
     )
 
