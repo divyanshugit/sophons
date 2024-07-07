@@ -8,8 +8,17 @@ from llama_index.core import ServiceContext, VectorStoreIndex
 from llama_index.llms.cohere import Cohere
 from llama_index.embeddings.cohere import CohereEmbedding
 from llama_index.core.schema import Document
+from llama_index.core.vector_stores.types import MetadataFilters, ExactMatchFilter
+from llama_index.core.retrievers import VectorIndexRetriever
+
+# from llama_index.retrievers import VectorIndexRetriever
+from llama_index.core.response_synthesizers import get_response_synthesizer
+from llama_index.core.query_engine import RetrieverQueryEngine
+from llama_index.core.postprocessor import SimilarityPostprocessor
+from llama_index.core.tools import FunctionTool
 
 from sophons.utils.logger import logger
+
 
 load_dotenv()
 
@@ -18,7 +27,7 @@ QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY")
 COHERE_API_KEY = os.environ.get("COHERE_API_KEY")
 
 
-def update_vdb(data: str, topic: str):
+def chat(query: str, topic: str):
 
     qdrant_client = QdrantClient(
         url=QDRANT_INDEX_URL,
@@ -46,26 +55,22 @@ def update_vdb(data: str, topic: str):
     index = VectorStoreIndex.from_vector_store(
         vector_store=vector_store, service_context=service_context
     )
-    document = Document(
-        text=data,
-        metadata={
-            "topic": topic,
-        },
+
+    retriever = VectorIndexRetriever(index=index, similarity_top_k=5)
+
+    synth = get_response_synthesizer(response_mode="refine")
+
+    # construct query engine
+    query_engine = RetrieverQueryEngine(
+        retriever=retriever,
+        response_synthesizer=synth,
+        node_postprocessors=[SimilarityPostprocessor(similarity_cutoff=0.55)],
     )
 
-    logger.info("Inserting document into the index...")
-    index.insert(document)
+    response = query_engine.query(query)
+    return response
 
-    logger.info("Creating payload index...")
-    qdrant_client.create_payload_index(
-        collection_name="original_content",
-        field_name="metadata.topic",
-        field_type=models.PayloadSchemaType.KEYWORD,
-    )
-    logger.info("Updating collection...")
 
-    qdrant_client.update_collection(
-        collection_name="original_content",
-        hnsw_config=models.HnswConfigDiff(payload_m=16, m=0),
-    )
-    logger.info("Finished updating collection...")
+if __name__ == "__main__":
+    response = chat("What is synthetic data?", "Synthetic Data")
+    print(response)

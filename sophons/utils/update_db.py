@@ -1,4 +1,5 @@
 import os
+import uuid
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 from supabase import create_client, Client
@@ -11,22 +12,25 @@ SUPABASE_ACCESS_KEY = os.environ.get("SUPABASE_ACCESS_KEY")
 
 
 def add_row(
-    user_id,
     posted_at,
     single_line_summary,
     full_summary,
     topic_name,
+    url,
+    title,
 ):
-    url = SUPABSE_URL
+    supabase_url = SUPABSE_URL
     key = SUPABASE_ACCESS_KEY
-    supabase = create_client(url, key)
+    supabase = create_client(supabase_url, key)
     row = {
-        "id": user_id,
+        "id": str(uuid.uuid4()),
         "prcoessed_at": datetime.now(timezone.utc).isoformat(),
         "posted_at": posted_at,
         "single_line": single_line_summary,
         "full_summary": full_summary,
         "topic": topic_name,
+        "url": url,
+        "title": title,
     }
     try:
         response = supabase.table("summary").upsert(row).execute()

@@ -1,0 +1,42 @@
+.dashboard-search{
+    color: #000;
+    font-family: Manrope;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.h3-dashboard{
+    font-size:15px;
+    color: #1A1A1A;
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.p-dashboard{
+    font-size:12px;
+    color: #696969;
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.dashboard-buttons{
+    border-radius:20px;
+    padding:5px 20px;
+    color: #1A1A1A;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border:1px solid black;
+    margin-right:10px;
+    transition:background 0.2s;
+}
+.dashboard-buttons:hover{
+    cursor:pointer;
+    background:#6E63E5;
+    color:#fff;
+}
