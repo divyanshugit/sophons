@@ -19,7 +19,6 @@ const ChatBot = () => {
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
   }, [messages]);
-
   const handleSend = async () => {
     if (inputMessage.trim() === '') return;
 
@@ -32,22 +31,27 @@ const ChatBot = () => {
     setInputMessage('');
 
     try {
-      const response = await axios.post('http://localhost:5001/api/chat-completion', {
-        model: "mistralai/Mistral-7B-Instruct-v0.1",
+      const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+        model: "gpt-4",
         messages: [
           { role: "system", content: "You are a helpful assistant." },
           { role: "user", content: newMessage.message }
         ]
+      }, {
+        headers: {
+          'Authorization': `Bearer <OPENAI_API_KEY>`,
+          'Content-Type': 'application/json'
+        }
       });
 
       const data = response.data;
-      setMessages([...messages, newMessage, {
+      setMessages(prevMessages => [...prevMessages, {
         message: data.choices[0]?.message?.content,
         sender: "ChatGPT"
       }]);
     } catch (error) {
       console.error('Error generating chat completion:', error);
-      setMessages([...messages, newMessage, {
+      setMessages(prevMessages => [...prevMessages, {
         message: 'An error occurred while generating the chat completion.',
         sender: "ChatGPT"
       }]);

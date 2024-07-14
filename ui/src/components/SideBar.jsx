@@ -4,8 +4,16 @@ import dashBoard from '../assets/dashboard.svg'
 import overview from '../assets/overview.svg'
 import settings from '../assets/settings.svg'
 import logout from '../assets/logout.svg'
+import { useNavigate } from 'react-router-dom';
 import './SideBar.css'
-const sideBar = () => {
+const SideBar = () => {
+  const navigate = useNavigate();
+  const handleButtonClick1 = () => {
+    navigate('/discover');
+  };
+  const handleButtonClick2 = () => {
+    navigate('/topic');
+  };
   return (
     <div className='sideBar-main'>
       <div className='sidebar-top'>
@@ -20,15 +28,15 @@ const sideBar = () => {
             <div className='sidebar-top-overview-options'>
                 <div className='sidebar-top-overview-option'>
                     <div className='sidebar-overview-option-image' src={dashBoard}>
-                      <img src={dashBoard} style={{width: '22.75px', height: '22.75px', color:'#6E63E5',margin:'0px 10px 0px 5px'}}/>
+                      <img src={dashBoard} style={{width: '22.75px', height: '22.75px', color:'#6E63E5',margin:'0px 10px 0px 5px'}}onClick={handleButtonClick2}/>
                     </div>
-                    <div className='sidebar-overview-option-text'>Dashboard</div>
+                    <div className='sidebar-overview-option-text'onClick={handleButtonClick2}>Dashboard</div>
                 </div>
                 <div className='sidebar-top-overview-option'>
                     <div className='sidebar-overview-option-image' src={overview}>
-                      <img src={overview} style={{width: '27px', height: '27px', color:'#6E63E5',margin:'0px 8px 0px 2px'}}/>
+                      <img src={overview} style={{width: '27px', height: '27px', color:'#6E63E5',margin:'0px 8px 0px 2px'}} onClick={handleButtonClick1}/>
                     </div>
-                    <div className='sidebar-overview-option-text'>Discover</div>
+                    <div className='sidebar-overview-option-text'onClick={handleButtonClick1}>Discover</div>
                 </div>
             </div>
         </div>
@@ -54,4 +62,4 @@ const sideBar = () => {
   )
 }
 
-export default sideBar
+export default SideBar

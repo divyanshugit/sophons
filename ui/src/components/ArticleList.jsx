@@ -28,6 +28,7 @@ const articles = [
 ];
 
 const ArticleList = () => {
+  
   return (
     <div className="article-list">
       <SearchBar />
@@ -39,7 +40,7 @@ const ArticleList = () => {
       </div>
       <div className="articles">
         {articles.map(article => (
-          <ArticleCard key={article.id} article={article} />
+          <ArticleCard key={article.id} article={article}  />
         ))}
       </div>
     </div>

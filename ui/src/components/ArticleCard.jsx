@@ -1,7 +1,11 @@
 import React from 'react';
-import './ArticleCard.css'; // Import the CSS file for styling
-
+import './ArticleCard.css'; 
+import { useNavigate } from 'react-router-dom';
 const ArticleCard = ({ article }) => {
+  const navigate = useNavigate();
+  const handleButtonClick1 = () => {
+    navigate('/blogpage');
+  };
   return (
     <div className="article-card">
       <div className="article-info">
@@ -16,7 +20,7 @@ const ArticleCard = ({ article }) => {
         <img src={article.image} alt={article.title} />
       </div>
       <div className="read-more">
-        <button className='read-more-button'>→</button>
+        <button className='read-more-button' onClick={handleButtonClick1}>→</button>
       </div>
     </div>
   );

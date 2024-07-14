@@ -1,12 +1,17 @@
 import React from 'react';
 import './ArticleDetails.css';
 import AuthorImage from '../assets/AuthorImage.png'
+import { useNavigate } from 'react-router-dom';
 const ArticleDetail = () => {
+  const navigate = useNavigate();
+  const handleButtonClick1 = () => {
+    navigate('/chatpage');
+  };
   return (
     <div className="article-detail">
       <header className="article-header">
         <div className="tags">
-          <span className="tag new">NEW</span>
+          <span className="tag new" onClick={handleButtonClick1}>RAG CHATBOT</span>
           <span className="tag llm">LLMs</span>
           <span className="tag agents">LLM Agents</span>
         </div>
